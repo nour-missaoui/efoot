@@ -1,9 +1,23 @@
 import 'package:efoot/secondscreen.dart';
 import 'package:flutter/material.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart'; // Import stop_watch_timer
+import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:window_manager/window_manager.dart';
+ // Import stop_watch_timer
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+// Must add this line.
+await windowManager.ensureInitialized();
+
+// Use it only after calling `hiddenWindowAtLaunch`
+windowManager.waitUntilReadyToShow().then((_) async {
+// Hide window title bar
+await windowManager.setFullScreen(true);
+await windowManager.center();
+await windowManager.show();
+await windowManager.setSkipTaskbar(false);
+});
 }
 
 class MyApp extends StatelessWidget {
